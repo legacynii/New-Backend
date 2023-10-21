@@ -54,23 +54,15 @@ app.get('/api/search', async (req, res) => {
 
     // Construct the search query dynamically
     const searchConditions = fields.map((field, index) => {
-      if (field === 'dateofbirth') {
-        // Handle date columns differently
-        return `CAST(${field} AS TEXT) ILIKE $${index + 1}`;
-      } else {
-        // Handle other text columns
-        return `${field} ILIKE $${index + 1}`;
-      }
+  
+      return `LOWER(${field}) ILIKE $${index + 1}`;
     });
     
     const searchQuery = `
       SELECT *
       FROM members
       WHERE ${searchConditions.join(' OR ')}
-        OR residenceaddress ILIKE $${fields.length + 1}
-        OR occupation ILIKE $${fields.length + 2}
-        OR phonenumber ILIKE $${fields.length + 3}
-        OR maritalstatus ILIKE $${fields.length + 4}
+        
     `;
 
   
@@ -80,11 +72,7 @@ app.get('/api/search', async (req, res) => {
     const searchFieldValues = fields.map(() => {
       return `%${query}%`;
     });
-    searchFieldValues.push(`%${query}%`); // For residenceaddress
-    searchFieldValues.push(`%${query}%`); // For occupation
-    searchFieldValues.push(`%${query}%`); // For phonenumber
-    searchFieldValues.push(`%${query}%`); // For maritalstatus
-
+    
     const result = await client.query(searchQuery, searchFieldValues);
 
     const searchResults = result.rows;
