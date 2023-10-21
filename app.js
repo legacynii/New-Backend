@@ -25,6 +25,9 @@ const pool = new Pool({
   host: "dpg-ckm42g8710pc73fcdav0-a.oregon-postgres.render.com", 
   port: 5432,
   database: "ch_database",
+  ssl: {
+    rejectUnauthorized: false, // Allows self-signed certificates (not recommended for production)
+  }
 });
 const ACCESS_TOKEN_SECRET = '123HGFDDFF87653WREFDVKJHGSDF987653WRE';
 const REFRESH_TOKEN_SECRET = 'dsfdghg98764354jkhgfdsfghyygygt567kjhbvdfg';
