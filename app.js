@@ -341,7 +341,7 @@ app.use('/user', userRouter);
 
   
   app.get('/', (req, res) => {
-    res.send("Welcome To The Backend Of The Church Database Website by LegacyGh!");
+    res.send("Welcome To The Backend Of The Church Database Website by Legacy!");
 });
 
 app.listen(port,  () => {
